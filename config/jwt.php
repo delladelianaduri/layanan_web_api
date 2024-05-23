@@ -28,10 +28,10 @@ return [
     'blacklist_grace_period' => env('JWT_BLACKLIST_GRACE_PERIOD', 0),
 
     'providers' => [
-        'user' => Tymon\JWTAuth\Providers\User\EloquentUserAdapter::class,
-        'jwt' => Tymon\JWTAuth\Providers\JWT\NamshiAdapter::class,
-        'auth' => Tymon\JWTAuth\Providers\Auth\IlluminateAuthAdapter::class,
-        'storage' => Tymon\JWTAuth\Providers\Storage\IlluminateCacheAdapter::class,
+        'user' => 'Tymon\JWTAuth\Providers\User\EloquentUserAdapter',
+        'jwt' => 'Tymon\JWTAuth\Providers\JWT\NamshiAdapter',
+        'auth' => 'Tymon\JWTAuth\Providers\Auth\IlluminateAuthAdapter',
+        'storage' => 'Tymon\JWTAuth\Providers\Storage\IlluminateCacheAdapter',
     ],
 
 ];
