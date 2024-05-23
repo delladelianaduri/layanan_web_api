@@ -1,12 +1,13 @@
 <?php
 
-require_once __DIR__.'/../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 (new Laravel\Lumen\Bootstrap\LoadEnvironmentVariables(
     dirname(__DIR__)
 ))->bootstrap();
 
 date_default_timezone_set(env('APP_TIMEZONE', 'UTC'));
+
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +23,11 @@ date_default_timezone_set(env('APP_TIMEZONE', 'UTC'));
 $app = new Laravel\Lumen\Application(
     dirname(__DIR__)
 );
+
+// Aktifkan jika Anda memerlukan facades dan Eloquent
+// $app->withFacades();
+// $app->withEloquent();
+
 
 // $app->withFacades();
 
@@ -48,6 +54,7 @@ $app->singleton(
     App\Console\Kernel::class
 );
 
+
 /*
 |--------------------------------------------------------------------------
 | Register Config Files
@@ -61,6 +68,10 @@ $app->singleton(
 
 $app->configure('app');
 
+// Tambahkan ini untuk mengonfigurasi JWT
+$app->configure('jwt');
+
+
 /*
 |--------------------------------------------------------------------------
 | Register Middleware
@@ -71,6 +82,14 @@ $app->configure('app');
 | route or middleware that'll be assigned to some specific routes.
 |
 */
+
+// $app->middleware([
+//     App\Http\Middleware\ExampleMiddleware::class
+// ]);
+
+$app->routeMiddleware([
+    'auth' => App\Http\Middleware\Authenticate::class,
+]);
 
 // $app->middleware([
 //     App\Http\Middleware\ExampleMiddleware::class
@@ -95,6 +114,12 @@ $app->configure('app');
 // $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 
+$app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
+class_alias(Tymon\JWTAuth\Facades\JWTAuth::class, 'JWTAuth');
+class_alias(Tymon\JWTAuth\Facades\JWTFactory::class, 'JWTFactory');
+
+
+
 /*
 |--------------------------------------------------------------------------
 | Load The Application Routes
@@ -109,7 +134,7 @@ $app->configure('app');
 $app->router->group([
     'namespace' => 'App\Http\Controllers',
 ], function ($router) {
-    require __DIR__.'/../routes/web.php';
+    require __DIR__ . '/../routes/web.php';
 });
 
 return $app;
