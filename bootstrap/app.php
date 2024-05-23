@@ -25,8 +25,8 @@ $app = new Laravel\Lumen\Application(
 );
 
 // Aktifkan jika Anda memerlukan facades dan Eloquent
-// $app->withFacades();
-// $app->withEloquent();
+$app->withFacades();
+$app->withEloquent();
 
 
 // $app->withFacades();
@@ -68,8 +68,11 @@ $app->singleton(
 
 $app->configure('app');
 
+$app->configure('auth');
 // Tambahkan ini untuk mengonfigurasi JWT
 $app->configure('jwt');
+
+
 
 
 /*
